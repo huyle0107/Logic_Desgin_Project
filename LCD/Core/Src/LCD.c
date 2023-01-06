@@ -12,7 +12,7 @@ char operator;
 char operand1[16];
 char operand2[16];
 char operand[16];
-int check = 0, check1 = 0;
+int check = 0, check1 = 0, checkeq = 0;
 int i = 0, j = 0, temp = 0;
 
 void ClearData()
@@ -43,6 +43,12 @@ void LCD_add_To_String(char data)
 	}
 	else if (data == '=')
 	{
+		if (checkeq == 1)
+		{
+			LCD_Put_Cur(1, 11);
+			LCD_Send_String("error");
+			return;
+		}
 		if ((i + j + 1) > 16)
 		{
 			ClearData();
@@ -51,6 +57,7 @@ void LCD_add_To_String(char data)
 		}
 		temp = logicCal(operand1, operand2, operator, check1, temp, i, j);
 		check1 = 0;
+		checkeq = 1;
 		return;
 	}
 	else if (temp == 1 && check1 == 0)
