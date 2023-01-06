@@ -20,7 +20,12 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int i
 		{
 			if (final[count3] == '.')
 			{
-				if (final[count3 + 1] == '0') break;
+				if (final[count3 + 1] == '0')
+					if (final[count3 + 2] == '0')
+						if (final[count3 + 3] == '0')
+							if (final[count3 + 4] == '0')
+								if (final[count3 + 5] == '0')
+									if (final[count3 + 6] == '0') break;
 				check1 = 1;
 			}
 			str1[count3] = final[count3];
