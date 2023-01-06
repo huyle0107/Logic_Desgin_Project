@@ -61,6 +61,7 @@ void Key_Read(){
 		if(text != 0xFF)
 		{
 			LCD_add_To_String(text);
+//			HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 		}
 
 	}

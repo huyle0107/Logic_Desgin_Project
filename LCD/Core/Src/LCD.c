@@ -12,7 +12,7 @@ char operator;
 char operand1[16];
 char operand2[16];
 char operand[16];
-int check = 0, check1 = 0, checkdiv = 0;
+int check = 0, check1 = 0;
 int i = 0, j = 0, temp = 0;
 
 void ClearData()
@@ -38,7 +38,6 @@ void LCD_add_To_String(char data)
 	if (data == '#')
 	{
 		ClearData();
-		checkdiv = 0;
 		LCD_Clear();
 		return;
 	}
@@ -50,7 +49,7 @@ void LCD_add_To_String(char data)
 			LCD_Clear();
 			return;
 		}
-		temp = logicCal(operand1, operand2, operator, check1, temp, checkdiv, i, j);
+		temp = logicCal(operand1, operand2, operator, check1, temp, i, j);
 		check1 = 0;
 		return;
 	}
@@ -80,7 +79,6 @@ void LCD_add_To_String(char data)
 		for(int z = 0; z < 16; z++) LCD_Send_Data(operand[z]);
 
 		operator = data;
-		if (operator == '/') checkdiv++;
 		i = 1; j = 0;
 		temp = 2; check = 1;
 
@@ -93,7 +91,6 @@ void LCD_add_To_String(char data)
 		if (data == '+' || data == 'x' || data == '/')
 		{
 			operator = data;
-			if (data == '/') checkdiv++;
 			return;
 		}
 	}
@@ -121,7 +118,6 @@ void LCD_add_To_String(char data)
 		else if (check == 0)
 		{
 			operator = data;
-			if (data == '/') checkdiv++;
 			check = 1;
 		}
 		else
@@ -177,7 +173,7 @@ void send8bitstoLCD(char vee){
 }
 
 void LCD_Init(){
-	HAL_Delay(20);
+//	HAL_Delay(10);
 	LCD_Send_CMD(0x38);		/* Initialization of 16X2 LCD in 8bit mode */
 	LCD_Send_CMD(0x0C);		/* Display ON Cursor OFF */
 	LCD_Send_CMD(0x06);		/* Auto Increment cursor */
@@ -186,19 +182,19 @@ void LCD_Init(){
 }
 
 void LCD_Send_CMD(char cmd){
-	HAL_Delay(20);
-	HAL_GPIO_WritePin(GPIOA, RS_Pin, 0); // RS = 0 nean send command
+//	HAL_Delay(20);
+	HAL_GPIO_WritePin(GPIOB, RS_Pin, 0); // RS = 0 nean send command
 	send8bitstoLCD(cmd);
-	HAL_GPIO_WritePin(GPIOA, EN_Pin, 0);
-	HAL_GPIO_WritePin(GPIOA, EN_Pin, 1);
+	HAL_GPIO_WritePin(GPIOB, EN_Pin, 0);
+	HAL_GPIO_WritePin(GPIOB, EN_Pin, 1);
 }
 
 void LCD_Send_Data(char data){
-	HAL_Delay(20);
-	HAL_GPIO_WritePin(GPIOA, RS_Pin, 1); // RS = 1 send data
+//	HAL_Delay(20);
+	HAL_GPIO_WritePin(GPIOB, RS_Pin, 1); // RS = 1 send data
 	send8bitstoLCD(data);
-	HAL_GPIO_WritePin(GPIOA, EN_Pin, 0);
-	HAL_GPIO_WritePin(GPIOA, EN_Pin, 1);
+	HAL_GPIO_WritePin(GPIOB, EN_Pin, 0);
+	HAL_GPIO_WritePin(GPIOB, EN_Pin, 1);
 }
 
 void LCD_Send_String(char *str){

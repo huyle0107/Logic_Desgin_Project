@@ -3,20 +3,26 @@
 #include <stdlib.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 char final[16];
+unsigned long long result1 = 0;
+double result2 = 0;
 
-int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int checkdiv, int i, int j)
+int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int i, int j)
 {
-	int num1 = 0, count1 = 0, count2 = 0, count3 = 0, check1 = 0;
-	unsigned long long num2 = 0, result1 = 0;
-	double result2 = 0;
+	int num1 = 0, num2 = 0, count1 = 0, count2 = 0, count3 = 0, check1 = 0;
 
 	if (temp == 2)
 	{
 		i = 0;
 		while (final[count3] != '\0')
 		{
+			if (final[count3] == '.')
+			{
+				if (final[count3 + 1] == '0') break;
+				check1 = 1;
+			}
 			str1[count3] = final[count3];
 			final[count3] = '\0';
 			i++; count3++;
@@ -30,17 +36,22 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int c
 
 	while (count1 < i)
 	{
+		if (check1 == 1)
+		{
+			count1 = 1;
+			break;
+		}
 		if (str1[count1] == '-')
 	    {
 			count1++;
-	        while (count1 < i)
-	        {
-	        	int temp1 = (int)str1[count1] - 48;
-	        	num1 = num1 * 10 + temp1;
-	            count1++;
-	        }
-	        num1 *= -1;
-	        break;
+			while (count1 < i)
+			{
+				int temp1 = (int)str1[count1] - 48;
+				num1 = num1 * 10 + temp1;
+				count1++;
+			}
+			num1 *= -1;
+			break;
 	    }
 	    int temp1 = (int)str1[count1] - 48;
 	    num1 = num1 * 10 + temp1;
@@ -83,31 +94,27 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int c
 		LCD_Send_String("error");
 		return 0;
 	}
-	else if (checkdiv > 1)
-	{
-		int tmpcount = 0;
-		for(int z = 0; z < 16; z++)
-		{
-			LCD_Put_Cur(1, tmpcount);
-			LCD_Send_Data('\0');
-			tmpcount++;
-		}
-		LCD_Put_Cur(1, 11);
-		LCD_Send_String("error");
-		return 0;
-	}
 
 	switch(cal)
 	{
 		case '+':
-			result1 = num1+num2;
+			if (check1 == 1) result2 += (double)num2;
+			else result1 = num1 + num2;
 	        break;
 	    case '-':
-	        result1 = num1-num2;
+	    	if (check1 == 1) result2 -= (double)num2;
+	    	else result1 = num1 - num2;
 	        break;
 	    case 'x':
-	        result1 = num1*num2;
-	        if (num1*num2 < -2147483648 && num1*num2 > 2147483648)
+	    	if (check1 == 1) result2 *= (double)num2;
+	    	else result1 = num1 * num2;
+	    	if ((result2 * (double)num2) < -2147483648 && (result2 * (double)num2) > 2147483648)
+	    	{
+				LCD_Put_Cur(1, 6);
+				LCD_Send_String("math error");
+				return 0;
+	    	}
+	    	else if (num1*num2 < -2147483648 && num1*num2 > 2147483648)
 	        {
 	        	LCD_Put_Cur(1, 6);
 	        	LCD_Send_String("math error");
@@ -115,12 +122,16 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int c
 	        }
 	        break;
 	    case '/':
-	        if(num2 == 0)
+	    	if(num2 == 0)
 	        {
 	        	LCD_Put_Cur(1, 11);
 	        	LCD_Send_String("error");
 	        	return 0;
 	        }
+	    	else if (check1 == 1)
+	    	{
+	    		result2 /= (double)num2;
+	    	}
 	        else
 	        {
 	        	check1 = 1;
@@ -134,7 +145,7 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int c
 	}
 	else
 	{
-		sprintf(final, "%f", result2);
+		sprintf(final, "%.6f", result2);
 	}
 	int tmpcount = 0;
 	for(int z = 0; z < 16; z++)
@@ -149,4 +160,3 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int c
 	for(int y = 0; y < 16; y++) LCD_Send_Data(final[y]);
 	return 1;
 }
-

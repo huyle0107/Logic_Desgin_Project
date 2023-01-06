@@ -64,8 +64,8 @@ all: main-build
 main-build: LCD.elf secondary-outputs
 
 # Tool invocations
-LCD.elf: $(OBJS) $(USER_OBJS) E:\Documents\Logic\ Design\ Project\Stm32\LCD\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "LCD.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"E:\Documents\Logic Design Project\Stm32\LCD\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LCD.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+LCD.elf: $(OBJS) $(USER_OBJS) E:\Documents\Logic\ Design\ Project\Source\ for\ fix\ bug\LCD\STM32F103C6UX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "LCD.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"E:\Documents\Logic Design Project\Source for fix bug\LCD\STM32F103C6UX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LCD.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
