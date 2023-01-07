@@ -32,6 +32,7 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int i
 			final[count3] = '\0';
 			i++; count3++;
 		}
+		LCD_Clear();
 	}
 
 	if (check2 == 1)
@@ -156,7 +157,7 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int i
 	for(int z = 0; z < 16; z++)
 	{
 		LCD_Put_Cur(1, tmpcount);
-		LCD_Send_Data('\0');
+		LCD_Send_Data(' ');
 		tmpcount++;
 	}
 	count3 = 0;
