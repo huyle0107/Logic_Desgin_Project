@@ -18,36 +18,43 @@ const char KEY[16]={
 };
 char operator;
 
-unsigned char check_row(unsigned char col){
-	if(HAL_GPIO_ReadPin(GPIOB, R0_Pin) == 0 )	return KEY[col];
-	else if (HAL_GPIO_ReadPin(GPIOB, R1_Pin) == 0)	return KEY[4+col];
-	else if (HAL_GPIO_ReadPin(GPIOB, R2_Pin) == 0)	return KEY[8+col];
-	else if (HAL_GPIO_ReadPin(GPIOB, R3_Pin) == 0)	return KEY[12+col];
-	else return 0xFF;
+unsigned char check_col(unsigned char row){
+	if (!(HAL_GPIO_ReadPin (C0_GPIO_Port, C0_Pin)))   return KEY[row+0];// if the Col 0 is low
+
+	if (!(HAL_GPIO_ReadPin (C1_GPIO_Port, C1_Pin)))   return KEY[row+1];// if the Col 1 is low
+
+	if (!(HAL_GPIO_ReadPin (C2_GPIO_Port, C2_Pin)))   return KEY[row+2];// if the Col 2 is low
+
+	if (!(HAL_GPIO_ReadPin (C3_GPIO_Port, C3_Pin)))   return KEY[row+3];// if the Col 3 is low
+
+	return 0xFF;
+
 }
 unsigned char KEYPAD_Read(void){
 	unsigned char key;
-	HAL_GPIO_WritePin(GPIOA, C0_Pin|C1_Pin|C2_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOB, C3_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, R0_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, R1_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, R2_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, R3_Pin,GPIO_PIN_SET);
 
-	HAL_GPIO_WritePin(GPIOA, C0_Pin, RESET);
-	key = check_row(0);
-	HAL_GPIO_WritePin(GPIOA, C0_Pin, SET);
+	HAL_GPIO_WritePin(GPIOB, R0_Pin, RESET);
+	key = check_col(0);
+	HAL_GPIO_WritePin(GPIOB, R0_Pin, SET);
 	if(key != 0xFF)	return key;
 
-	HAL_GPIO_WritePin(GPIOA, C1_Pin, RESET);
-	key = check_row(1);
-	HAL_GPIO_WritePin(GPIOA, C1_Pin, SET);
+	HAL_GPIO_WritePin(GPIOB, R1_Pin, RESET);
+	key = check_col(4);
+	HAL_GPIO_WritePin(GPIOB, R1_Pin, SET);
 	if(key != 0xFF)	return key;
 
-	HAL_GPIO_WritePin(GPIOA, C2_Pin, RESET);
-	key = check_row(2);
-	HAL_GPIO_WritePin(GPIOA, C2_Pin, SET);
+	HAL_GPIO_WritePin(GPIOB, R2_Pin, RESET);
+	key = check_col(8);
+	HAL_GPIO_WritePin(GPIOB, R2_Pin, SET);
 	if(key != 0xFF)	return key;
 
-	HAL_GPIO_WritePin(GPIOB, C3_Pin, RESET);
-	key = check_row(3);
-	HAL_GPIO_WritePin(GPIOB, C3_Pin, SET);
+	HAL_GPIO_WritePin(GPIOB, R3_Pin, RESET);
+	key = check_col(12);
+	HAL_GPIO_WritePin(GPIOB, R3_Pin, SET);
 	if(key != 0xFF)	return key;
 
 	return 0xFF;
