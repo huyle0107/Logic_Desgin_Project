@@ -23,7 +23,7 @@ void ClearData()
 		operand2[l] = ' ';
 		operand[l] = ' ';
 	}
-	operator = ' ';
+	operator = '\0';
 	i = 0; j = 0;
 	check =  0; check1 = 1;
 }
@@ -64,7 +64,7 @@ void LCD_add_To_String(char data)
 			return;
 		}
 		temp = logicCal(operand1, operand2, operator, check1, temp, i, j);
-		check1 = 0; checkeq = 1; operator = ' ';
+		check1 = 0; checkeq = 1; operator = '\0';
 		return;
 	}
 	else if (temp == 1 && check1 == 0)
@@ -75,7 +75,7 @@ void LCD_add_To_String(char data)
 			operand2[l] = ' ';
 			operand[l] = ' ';
 		}
-		operator = ' ';
+		operator = '\0';
 		int tmpcount = 0;
 		for(int z = 0; z < 16; z++)
 		{

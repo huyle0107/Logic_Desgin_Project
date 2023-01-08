@@ -1844,9 +1844,9 @@ void ClearData()
  80010f2:	2b0f      	cmp	r3, #15
  80010f4:	ddea      	ble.n	80010cc <ClearData+0xc>
 	}
-	operator = ' ';
+	operator = '\0';
  80010f6:	4b0d      	ldr	r3, [pc, #52]	; (800112c <ClearData+0x6c>)
- 80010f8:	2220      	movs	r2, #32
+ 80010f8:	2200      	movs	r2, #0
  80010fa:	701a      	strb	r2, [r3, #0]
 	i = 0; j = 0;
  80010fc:	4b0c      	ldr	r3, [pc, #48]	; (8001130 <ClearData+0x70>)
@@ -2006,7 +2006,7 @@ void LCD_add_To_String(char data)
  8001204:	4603      	mov	r3, r0
  8001206:	4a6f      	ldr	r2, [pc, #444]	; (80013c4 <LCD_add_To_String+0x284>)
  8001208:	6013      	str	r3, [r2, #0]
-		check1 = 0; checkeq = 1; operator = ' ';
+		check1 = 0; checkeq = 1; operator = '\0';
  800120a:	4b6f      	ldr	r3, [pc, #444]	; (80013c8 <LCD_add_To_String+0x288>)
  800120c:	2200      	movs	r2, #0
  800120e:	601a      	str	r2, [r3, #0]
@@ -2014,7 +2014,7 @@ void LCD_add_To_String(char data)
  8001212:	2201      	movs	r2, #1
  8001214:	601a      	str	r2, [r3, #0]
  8001216:	4b6e      	ldr	r3, [pc, #440]	; (80013d0 <LCD_add_To_String+0x290>)
- 8001218:	2220      	movs	r2, #32
+ 8001218:	2200      	movs	r2, #0
  800121a:	701a      	strb	r2, [r3, #0]
 		return;
  800121c:	e12e      	b.n	800147c <LCD_add_To_String+0x33c>
@@ -2060,9 +2060,9 @@ void LCD_add_To_String(char data)
  800125a:	2b0f      	cmp	r3, #15
  800125c:	ddea      	ble.n	8001234 <LCD_add_To_String+0xf4>
 		}
-		operator = ' ';
+		operator = '\0';
  800125e:	4b5c      	ldr	r3, [pc, #368]	; (80013d0 <LCD_add_To_String+0x290>)
- 8001260:	2220      	movs	r2, #32
+ 8001260:	2200      	movs	r2, #0
  8001262:	701a      	strb	r2, [r3, #0]
 		int tmpcount = 0;
  8001264:	2300      	movs	r3, #0
