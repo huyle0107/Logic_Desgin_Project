@@ -49,6 +49,12 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int i
 		}
 		if (str1[count1] == '-')
 	    {
+			if (i > 10)
+			{
+				LCD_Put_Cur(1, 7);
+				LCD_Send_String("OUT RANGE");
+				return 0;
+			}
 			count1++;
 			while (count1 < i)
 			{
@@ -59,14 +65,26 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int i
 			num1 *= -1;
 			break;
 	    }
+	    if (i > 9)
+		{
+	    	LCD_Put_Cur(1, 7);
+			LCD_Send_String("OUT RANGE");
+			return 0;
+		}
 	    int temp1 = (int)str1[count1] - 48;
 	    num1 = num1 * 10 + temp1;
 	    count1++;
 	}
 	while (count2 < j)
 	{
-		if (str2[count2] == '-')
-	    {
+		if (str2[count2] == '-' )
+		{
+	    	if (j > 10)
+			{
+	    		LCD_Put_Cur(1, 7);
+				LCD_Send_String("OUT RANGE");
+				return 0;
+			}
 			count2++;
 	    	while (count2 < j)
 	    	{
@@ -77,6 +95,12 @@ int logicCal(char str1[16], char str2[16], char cal, int check2, int temp, int i
 	    	num2 *= -1;
 	    	break;
 	    }
+	    if (j > 9)
+		{
+	    	LCD_Put_Cur(1, 7);
+			LCD_Send_String("OUT RANGE");
+			return 0;
+		}
 	    int temp2 = (int)str2[count2] - 48;
 	    num2 = num2 * 10 + temp2;
 	    count2++;
